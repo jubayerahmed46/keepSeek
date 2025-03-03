@@ -1,11 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PageTitle from "../components/shared/PageTitle";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
+import ShowImage from "../components/ShowImage";
 
 const Create = () => {
   const { user, login } = useContext(AuthContext);
+  const [image, setImage] = useState({});
+  const [generating, setGenerating] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [category, setCategory] = useState("");
+
   const options = [
     "painting",
     "animated-image",
@@ -70,26 +76,28 @@ const Create = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    try {
+      setGenerating(true);
+      if (!checkUser()) return;
+      if (!validatePromptAndCategory(prompt, category)) return;
 
-    const form = e.target;
-    const prompt = form.prompt.value;
-    const category = form.category.value;
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/images`,
+        {
+          prompt,
+          category,
+          user_email: user.email,
+        }
+      );
 
-    if (!checkUser()) return;
-    if (!validatePromptAndCategory(prompt, category)) return;
+      console.log(data.image);
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/images`,
-      {
-        prompt,
-        category,
-        user_email: user.email,
-      }
-    );
-
-    console.log(data);
+      setImage(data.image);
+    } catch (error) {
+    } finally {
+      setGenerating(false);
+    }
   };
   return (
     <div>
@@ -102,15 +110,14 @@ const Create = () => {
             alt=""
           />
         </div>
-        <form
-          onSubmit={handleSubmit}
-          className="join w-full justify-center flex-wrap"
-        >
+        <div className="join w-full justify-center flex-wrap">
           <div className="flex-1">
             <div className="">
               <input
                 name="prompt"
                 className="input w-full input-bordered join-item outline-none focus:outline-none focus:border-primary"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Write , Whats on your Mind🧠🧠"
               />
             </div>
@@ -118,6 +125,8 @@ const Create = () => {
           <select
             name="category"
             className="select select-bordered join-item max-w-max outline-none focus:outline-none focus:border-primary"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Select a Category</option>
             {options.map((opt) => (
@@ -127,9 +136,21 @@ const Create = () => {
             ))}
           </select>
           <div className="indicator">
-            <button className="btn join-item btn-primary">Create</button>
+            {generating ? (
+              <button className="btn join-item btn-primary">
+                <span className="loading loading-spinner loading-sm"></span>
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="btn join-item btn-primary"
+              >
+                Create
+              </button>
+            )}
           </div>
-        </form>
+        </div>
+        <ShowImage image={image} />
       </div>
     </div>
   );

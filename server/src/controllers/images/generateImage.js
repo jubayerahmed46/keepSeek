@@ -13,22 +13,20 @@ async function generateImage(req, res) {
     const buffer = await generateBuffer(finalPrompt);
 
     // host buffer on imageBB || cloudinary and get image url
-    const { image } = await generateImgUrl(buffer, prompt);
+    const { image: imageDetails } = await generateImgUrl(buffer, prompt);
 
     // upload image details and user email on database using mongoose
-    const doc = await Image.create({
+    const image = await Image.create({
       email: user_email,
       prompt,
       category,
       created_at: new Date().toISOString(),
-      image_url: image.url,
-      height: image.height,
-      weight: image.weight,
+      image_url: imageDetails.url,
+      height: imageDetails.height,
+      weight: imageDetails.weight,
     });
 
-    console.log(doc);
-
-    res.send({ done: "image generated successfully!", doc });
+    res.send({ status: 200, image });
   } catch (err) {
     console.log(err);
   }
