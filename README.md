@@ -1,7 +1,5 @@
 # KEEP-SEEK-AI <img width="35px" src="https://img.icons8.com/?size=96&id=8gR77jBNhfyz&format=png"/>
 
-<img src="https://i.ibb.co.com/k2kj2Q0p/Screenshot-3.png"/>
-
 ---
 
 Pick-Seek is an advanced AI-powered tool that can generate images, analyze images, and provide contextual replies and comments based on specific image content. It leverages cutting-edge AI models to process visual data efficiently and interact seamlessly with users.
@@ -16,6 +14,8 @@ Pick-Seek is an advanced AI-powered tool that can generate images, analyze image
 - **Commenting System**: Offer AI-driven comments and insights on images.
 
 ---
+
+[Client-setup]
 
 ## Let's Collaborate 😎
 

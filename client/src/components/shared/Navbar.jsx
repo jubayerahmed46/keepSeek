@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-1 text-xl ">
           <span className="bg-gradient-to-r from-stone-300 to-cyan-600 bg-clip-text text-transparent">
-            PIC-SEEK
+            KEEP-SEEK
           </span>
           <div>
             <img
