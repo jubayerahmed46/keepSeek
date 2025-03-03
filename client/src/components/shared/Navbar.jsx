@@ -56,6 +56,15 @@ const Navbar = () => {
               <CiGrid31 size={18} /> Creations
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to={"/profile"}
+              className="border rounded-full border-gray-200 shadow px-4 py-2 bg-base-100"
+            >
+              {" "}
+              <CiGrid31 size={18} /> Profile
+            </NavLink>
+          </li>
 
           {user && user?.email ? (
             <li>
