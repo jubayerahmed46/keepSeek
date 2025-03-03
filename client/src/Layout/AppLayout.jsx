@@ -14,8 +14,8 @@ const AppLayout = () => {
           gradient={true}
           className="bg-primary text-base-100"
         >
-          Welcome Mr. {user?.displayName} 🐦‍🔥. Lets unleash the power of
-          PicSeek-AI
+          Welcome &nbsp; {user?.displayName.split(" ")[0]}&nbsp; 🐦‍🔥. Lets
+          unleash the power of KeepSeek AI
         </Marquee>
       )}
       <header className="bg-gradient-to-t lg:bg-gradient-to-l from-cyan-100 ">
@@ -31,8 +31,8 @@ const AppLayout = () => {
       <footer className="footer footer-center bg-cyan-50 glass text-base-content p-4">
         <aside>
           <p>
-            Copyright © {new Date().getFullYear()} - All right reserved by ACME
-            Industries Ltd
+            Copyright © {new Date().getFullYear()} - All right reserved by
+            KeepSeek Industries Ltd
           </p>
         </aside>
       </footer>

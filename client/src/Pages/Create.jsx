@@ -2,6 +2,7 @@ import { useContext } from "react";
 import PageTitle from "../components/shared/PageTitle";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Create = () => {
   const { user, login } = useContext(AuthContext);
@@ -43,30 +44,19 @@ const Create = () => {
       return true;
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!checkUser()) return;
-
-    const form = e.target;
-    const prompt = form.prompt.value;
-    const category = form.category.value;
-    // validation starts
+  const validatePromptAndCategory = (prompt, category) => {
     if (!category) {
       Swal.fire(
         "Select Category",
         "Select a Category from the dropdown",
         "error"
       );
-      return;
+      return false;
     }
+
     if (!prompt) {
       Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
-    }
-    if (!prompt) {
-      Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
+      return false;
     }
     if (prompt.trim().length < 20) {
       Swal.fire(
@@ -74,25 +64,42 @@ const Create = () => {
         "make your prompt bigger (minimum 20 character)",
         "error"
       );
-      return;
+      return false;
     }
-    //validation End
 
-    console.log({ prompt, category });
-    const finalPrompt = `imagine a ${category} : ${prompt}`;
-    console.log(finalPrompt);
-    return;
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const prompt = form.prompt.value;
+    const category = form.category.value;
+
+    if (!checkUser()) return;
+    if (!validatePromptAndCategory(prompt, category)) return;
+
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/images`,
+      {
+        prompt,
+        category,
+        user_email: user.email,
+      }
+    );
+
+    console.log(data);
   };
   return (
     <div>
-      <PageTitle>🌱Let&apos;s Create 🐦‍🔥</PageTitle>
+      <PageTitle>🌱Let&apos;s Generate an image 🐦‍🔥</PageTitle>
 
       <div className="w-11/12 mx-auto py-10">
         <div className="flex justify-center py-5">
           <img
             src="https://img.icons8.com/?size=96&id=8gR77jBNhfyz&format=png"
             alt=""
-            className="animate-bounce"
           />
         </div>
         <form
