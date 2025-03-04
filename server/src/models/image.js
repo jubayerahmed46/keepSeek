@@ -8,6 +8,7 @@ const ImageSchema = new Schema({
   image_url: { type: String, required: true },
   height: { type: Number, required: false },
   weight: { type: Number, required: false },
+  public: { type: Boolean, required: false, default: false },
 });
 
 const Image = model("images", ImageSchema);
