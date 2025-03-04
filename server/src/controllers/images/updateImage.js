@@ -1,8 +1,6 @@
 import Image from "../../models/image.js";
 
 async function updateImage(req, res) {
-  console.log(req.params.id);
-
   await Image.findByIdAndUpdate(
     { _id: req.params.id },
     { $set: { public: true } },

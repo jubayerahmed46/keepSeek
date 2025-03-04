@@ -95,6 +95,7 @@ const Create = () => {
 
       setImage(data.image);
     } catch (error) {
+      console.log(error);
     } finally {
       setGenerating(false);
     }

@@ -4,12 +4,10 @@ import { Link } from "react-router";
 function ProfileCards({ userData }) {
   const handlePublicImage = async (id) => {
     // TODO: update the image with public = true
-    console.log(id);
-    const { data } = await axios.patch(
+    await axios.patch(
       `${import.meta.env.VITE_API_URL}/api/images/public/${id}`
     );
-
-    console.log(data);
+    alert("Image publisher.");
   };
 
   return (
